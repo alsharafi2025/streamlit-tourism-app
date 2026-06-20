@@ -1,15 +1,16 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import gzip
 
 st.set_page_config(page_title="Wellness Tourism Predictor", layout="centered")
 
 @st.cache_resource
 def load_model():
-    return joblib.load("best_model.pkl")
+    with gzip.open("best_model.pkl.gz", "rb") as f:
+        return joblib.load(f)
 
 model = load_model()
-
 st.title("Wellness Tourism Package Predictor")
 st.write("Enter customer details below to predict whether the customer is likely to purchase the package.")
 
